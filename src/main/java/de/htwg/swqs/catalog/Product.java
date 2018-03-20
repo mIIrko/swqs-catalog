@@ -1,26 +1,26 @@
 package de.htwg.swqs.catalog;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.*;
 import java.math.BigDecimal;
 
 @Entity
 public class Product {
 
     @Id
-    @GeneratedValue
     private long id;
+    @NotEmpty
     private String name;
+    @NotEmpty
     private String description;
     /**
      * The price of the product (we don't take care of tax)
      */
+    @PositiveOrZero
     private BigDecimal priceEuro;
 
-    public Product() {
-
-    }
+    public Product() {}
 
     public Product(long id, String name, String description, BigDecimal priceEuro) {
         this.id = id;

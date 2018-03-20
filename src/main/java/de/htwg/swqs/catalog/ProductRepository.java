@@ -16,9 +16,9 @@ import java.util.Optional;
  */
 public interface ProductRepository extends JpaRepository<Product, Long> {
 
-    // findAll is implemented by spring data
-    Product findById(long id);
-    List<Product> findByName(String name);
+    // findAll & findById is implemented by spring data
+
+    List<Product> findByNameIsContaining(String name);
 
 }
 
