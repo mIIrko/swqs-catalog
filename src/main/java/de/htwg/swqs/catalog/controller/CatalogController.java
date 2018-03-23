@@ -1,5 +1,8 @@
-package de.htwg.swqs.catalog;
+package de.htwg.swqs.catalog.controller;
 
+import de.htwg.swqs.catalog.model.Product;
+import de.htwg.swqs.catalog.utils.ProductNotFoundException;
+import de.htwg.swqs.catalog.repository.ProductRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,15 +14,14 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/products")
-public class ProductController {
+public class CatalogController {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(ProductController.class);
-
+    private static final Logger LOGGER = LoggerFactory.getLogger(CatalogController.class);
 
     private ProductRepository productRepository;
 
     @Autowired
-    public ProductController(ProductRepository productRepository) {
+    public CatalogController(ProductRepository productRepository) {
         this.productRepository = productRepository;
     }
 
@@ -31,7 +33,6 @@ public class ProductController {
             throw new ProductNotFoundException("No products available");
         }
         return productList;
-
     }
 
     @GetMapping("/{id}")
@@ -42,7 +43,6 @@ public class ProductController {
             throw new ProductNotFoundException("Product with id " + id + " not found");
         }
         return product.get();
-
     }
 
     /**
@@ -60,7 +60,5 @@ public class ProductController {
             throw new ProductNotFoundException("No products containing '" + name + "' in name found");
         }
         return productList;
-
-
     }
 }

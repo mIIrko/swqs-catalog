@@ -1,4 +1,4 @@
-package de.htwg.swqs.catalog;
+package de.htwg.swqs.catalog.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

@@ -1,5 +1,7 @@
 package de.htwg.swqs.catalog;
 
+import de.htwg.swqs.catalog.model.Product;
+import de.htwg.swqs.catalog.repository.ProductRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

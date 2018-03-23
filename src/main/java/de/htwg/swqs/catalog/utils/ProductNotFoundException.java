@@ -1,4 +1,4 @@
-package de.htwg.swqs.catalog;
+package de.htwg.swqs.catalog.utils;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
