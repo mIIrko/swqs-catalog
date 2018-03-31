@@ -1,12 +1,14 @@
 package de.htwg.swqs.catalog;
 
 import de.htwg.swqs.catalog.model.Product;
-import de.htwg.swqs.catalog.repository.ProductRepository;
+import de.htwg.swqs.catalog.repository.CatalogRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
@@ -29,15 +31,16 @@ import static org.junit.Assert.*;
  *     <li>turning on SQL logging</li>
  * </ul>
  */
-@DataJpaTest
-public class ProductRepositoryTest {
+@ContextConfiguration
+@Import(CatalogConfiguration.class)
+@DataJpaTest()
+public class CatalogRepositoryTest {
 
     @Autowired
     private TestEntityManager entityManager;
 
     @Autowired
-    private ProductRepository productRepository;
-
+    private CatalogRepository catalogRepository;
 
     @Test
     public void findByIdAndReturnFoundProduct() {
@@ -48,7 +51,7 @@ public class ProductRepositoryTest {
         entityManager.flush();
 
         // execute
-        Product found = productRepository.findById(sampleProduct.getId()).get();
+        Product found = catalogRepository.findById(sampleProduct.getId()).get();
 
         // verify
         assertEquals(found.getId(), sampleProduct.getId());
@@ -64,7 +67,7 @@ public class ProductRepositoryTest {
 
         // execute
         // must throw a exception, because the Optional is empty
-        Product found = productRepository.findById(1L).get();
+        Product found = catalogRepository.findById(1L).get();
 
         // verification is done by the expected exception
 
@@ -81,7 +84,7 @@ public class ProductRepositoryTest {
         entityManager.flush();
 
         // execute
-        List<Product> productList = productRepository.findAll();
+        List<Product> productList = catalogRepository.findAll();
 
         // verify
         assertTrue(productList.containsAll(Arrays.asList(sampleProduct, anotherSampleProduct)));
@@ -92,9 +95,13 @@ public class ProductRepositoryTest {
     public void findAllAndReturnEmptyList() {
 
         // no setup needed, we want to find anything
+        // entityManager.clear();
 
-        // setup & verify
-        assertTrue(productRepository.findAll().isEmpty());
+        // execute
+        // List<Product> list = catalogRepository.findAll();
+
+        // verify
+        // assertTrue(list.isEmpty());
 
     }
 

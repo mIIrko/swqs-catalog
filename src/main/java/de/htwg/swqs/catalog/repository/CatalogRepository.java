@@ -14,7 +14,7 @@ import java.util.List;
  * Only custom queries has to be declared!
  *
  */
-public interface ProductRepository extends JpaRepository<Product, Long> {
+public interface CatalogRepository extends JpaRepository<Product, Long> {
 
     // findAll & findById is implemented by spring data
 
