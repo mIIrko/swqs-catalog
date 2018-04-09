@@ -1,5 +1,6 @@
-package de.htwg.swqs.catalog;
+package de.htwg.swqs.catalog.repository;
 
+import de.htwg.swqs.catalog.CatalogConfiguration;
 import de.htwg.swqs.catalog.model.Product;
 import de.htwg.swqs.catalog.repository.CatalogRepository;
 import org.junit.Test;
@@ -7,8 +8,10 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.math.BigDecimal;
@@ -31,9 +34,8 @@ import static org.junit.Assert.*;
  *     <li>turning on SQL logging</li>
  * </ul>
  */
-@ContextConfiguration
-@Import(CatalogConfiguration.class)
-@DataJpaTest()
+@SpringBootTest(classes = CatalogConfiguration.class)
+@DataJpaTest
 public class CatalogRepositoryTest {
 
     @Autowired
@@ -49,7 +51,7 @@ public class CatalogRepositoryTest {
         Product sampleProduct = new Product(1, "Sample Product", "just a sample product", BigDecimal.valueOf(3.14));
         entityManager.persist(sampleProduct);
         entityManager.flush();
-
+        // this.catalogRepository.saveAndFlush(sampleProduct);
         // execute
         Product found = catalogRepository.findById(sampleProduct.getId()).get();
 
@@ -74,7 +76,7 @@ public class CatalogRepositoryTest {
     }
 
     @Test
-    public void findAllAndReturnAllProducts(){
+    public void findAllAndReturnAllProducts() {
 
         // setup
         Product sampleProduct = new Product(1, "Sample Product", "just a sample product", BigDecimal.valueOf(3.14));
@@ -82,6 +84,7 @@ public class CatalogRepositoryTest {
         entityManager.persist(sampleProduct);
         entityManager.persist(anotherSampleProduct);
         entityManager.flush();
+
 
         // execute
         List<Product> productList = catalogRepository.findAll();
