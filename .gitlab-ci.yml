@@ -3,7 +3,8 @@
 image: maven:3-jdk-8
 
 # define shell script which executed by GitLab Runner
-build:
+job1:
   # -B -> non-interactive batch mode 
-  script: "mvn install -B"
-
+  script:
+  - "mvn install -B"
+  -"cat target/site/jacoco/index.html"
