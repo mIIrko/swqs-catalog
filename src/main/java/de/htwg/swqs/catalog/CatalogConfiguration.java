@@ -7,7 +7,6 @@ import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Import;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootConfiguration
@@ -16,9 +15,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EntityScan("de.htwg.swqs.catalog.model")
 public class CatalogConfiguration {
 
-    @Bean
-    public CatalogService catalogService(CatalogRepository catalogRepository) {
-        return new CatalogServiceImpl(catalogRepository);
-    }
+  @Bean
+  public CatalogService catalogService(CatalogRepository catalogRepository) {
+    return new CatalogServiceImpl(catalogRepository);
+  }
 
 }

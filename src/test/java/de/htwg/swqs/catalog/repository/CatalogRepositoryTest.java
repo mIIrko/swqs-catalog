@@ -1,23 +1,23 @@
 package de.htwg.swqs.catalog.repository;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
+
 import de.htwg.swqs.catalog.CatalogConfiguration;
 import de.htwg.swqs.catalog.model.Product;
-import de.htwg.swqs.catalog.repository.CatalogRepository;
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import java.math.BigDecimal;
-import java.util.*;
-
-import static org.junit.Assert.*;
 
 
 /*
@@ -38,74 +38,83 @@ import static org.junit.Assert.*;
 @DataJpaTest
 public class CatalogRepositoryTest {
 
-    @Autowired
-    private TestEntityManager entityManager;
+  @Autowired
+  private TestEntityManager entityManager;
 
-    @Autowired
-    private CatalogRepository catalogRepository;
+  @Autowired
+  private CatalogRepository catalogRepository;
 
-    @Test
-    public void findByIdAndReturnFoundProduct() {
+  @Test
+  public void findByIdAndReturnFoundProduct() {
 
-        // setup
-        Product sampleProduct = new Product(1, "Sample Product", "just a sample product", BigDecimal.valueOf(3.14));
-        entityManager.persist(sampleProduct);
-        entityManager.flush();
-        // this.catalogRepository.saveAndFlush(sampleProduct);
-        // execute
-        Product found = catalogRepository.findById(sampleProduct.getId()).get();
+    // setup
+    Product sampleProduct = new Product(1, "Sample Product", "just a sample product",
+        BigDecimal.valueOf(3.14));
+    entityManager.persist(sampleProduct);
+    entityManager.flush();
+    // this.catalogRepository.saveAndFlush(sampleProduct);
+    // execute
+    Optional<Product> productOptional = catalogRepository.findById(sampleProduct.getId());
 
-        // verify
-        assertEquals(found.getId(), sampleProduct.getId());
-
-        // teardown
-        // is done by the @DirtiesContext Annotation at class level
+    if (!productOptional.isPresent()) {
+      fail("Product with id " + sampleProduct.getId() + "not present");
     }
+    Product found = productOptional.get();
 
-    @Test(expected = NoSuchElementException.class)
-    public void findByIdAndNoProductFoundThrowsException() {
+    // verify
+    assertEquals(found.getId(), sampleProduct.getId());
 
-        // no setup needed, we want to find anything
+    // teardown
+    // is done by the @DirtiesContext Annotation at class level
+  }
 
-        // execute
-        // must throw a exception, because the Optional is empty
-        Product found = catalogRepository.findById(1L).get();
+  @Test(expected = NoSuchElementException.class)
+  public void findByIdAndNoProductFoundThrowsException() {
 
-        // verification is done by the expected exception
+    // no setup needed, we want to find anything
 
-    }
+    // execute
+    // must throw a exception, because the Optional should be empty
+    Optional<Product> productOptional = catalogRepository.findById(1L);
+    productOptional.ifPresent(product -> fail("there should not be product in the database"));
+    Product found = productOptional.get();
 
-    @Test
-    public void findAllAndReturnAllProducts() {
+    // verification is done by the expected exception
 
-        // setup
-        Product sampleProduct = new Product(1, "Sample Product", "just a sample product", BigDecimal.valueOf(3.14));
-        Product anotherSampleProduct = new Product(2, "Another sample Product", "just another sample product", BigDecimal.valueOf(33));
-        entityManager.persist(sampleProduct);
-        entityManager.persist(anotherSampleProduct);
-        entityManager.flush();
+  }
 
+  @Test
+  public void findAllAndReturnAllProducts() {
 
-        // execute
-        List<Product> productList = catalogRepository.findAll();
+    // setup
+    Product sampleProduct = new Product(1, "Sample Product", "just a sample product",
+        BigDecimal.valueOf(3.14));
+    Product anotherSampleProduct = new Product(2, "Another sample Product",
+        "just another sample product", BigDecimal.valueOf(33));
+    entityManager.persist(sampleProduct);
+    entityManager.persist(anotherSampleProduct);
+    entityManager.flush();
 
-        // verify
-        assertTrue(productList.containsAll(Arrays.asList(sampleProduct, anotherSampleProduct)));
+    // execute
+    List<Product> productList = catalogRepository.findAll();
 
-    }
+    // verify
+    assertTrue(productList.containsAll(Arrays.asList(sampleProduct, anotherSampleProduct)));
 
-    @Test
-    public void findAllAndReturnEmptyList() {
+  }
 
-        // no setup needed, we want to find anything
-        // entityManager.clear();
+  @Test
+  public void findAllAndReturnEmptyList() {
 
-        // execute
-        // List<Product> list = catalogRepository.findAll();
+    // no setup needed, we want to find anything
+    entityManager.clear();
 
-        // verify
-        // assertTrue(list.isEmpty());
+    // execute
+    List<Product> list = catalogRepository.findAll();
 
-    }
+    // verify
+    assertTrue(list.isEmpty());
+
+  }
 
 }
