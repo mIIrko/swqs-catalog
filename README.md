@@ -1,3 +1,7 @@
+[![pipeline status](https://gitlab.in.htwg-konstanz.de/mibay/swqs-catalog/badges/master/pipeline.svg)](https://gitlab.in.htwg-konstanz.de/mibay/swqs-catalog/commits/master)
+[![coverage report](https://gitlab.in.htwg-konstanz.de/mibay/swqs-catalog/badges/master/coverage.svg)](https://gitlab.in.htwg-konstanz.de/mibay/swqs-catalog/commits/master)
+
+
 # swqs-catalog
 Component that delivers the products for the shop
 
