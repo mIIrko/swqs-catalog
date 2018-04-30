@@ -18,9 +18,6 @@ public class CatalogServiceImpl implements CatalogService {
     this.catalogRepository = catalogRepository;
   }
 
-  public CatalogServiceImpl() {
-  }
-
   @Override
   public List<Product> getAllProducts() {
     List<Product> productList = this.catalogRepository.findAll();

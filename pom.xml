@@ -172,6 +172,16 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
         <version>3.9.0</version>
+        <configuration>
+          <analysisCache>true</analysisCache>
+          <rulesets>
+            <ruleset>/rulesets/java/braces.xml</ruleset>
+            <ruleset>/rulesets/java/naming.xml</ruleset>
+            <ruleset>/rulesets/java/codesize.xml</ruleset>
+            <ruleset>/rulesets/java/basic.xml</ruleset>
+            <ruleset>/rulesets/java/junit.xml</ruleset>
+          </rulesets>
+        </configuration>
       </plugin>
       <plugin>
         <groupId>org.jacoco</groupId>
