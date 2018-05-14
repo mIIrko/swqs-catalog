@@ -7,15 +7,8 @@ cache:
  paths:
  - $HOME/.m2/
 
-# declares which docker image should be used
-# https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-an-image
-image: maven:3-jdk-8
-
-
 maven:verify:
   stage: test
-  dependencies:
-      - maven:package
   script:
   - "mvn verify --batch-mode"
   - "cat target/site/jacoco/index.html"
