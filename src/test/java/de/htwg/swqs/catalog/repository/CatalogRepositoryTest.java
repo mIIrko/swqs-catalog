@@ -72,11 +72,11 @@ public class CatalogRepositoryTest {
   public void findByIdAndNoProductFoundThrowsException() {
 
     // no setup needed, we want to find anything
+    entityManager.clear();
 
     // execute
     // must throw a exception, because the Optional should be empty
     Optional<Product> productOptional = catalogRepository.findById(1L);
-    productOptional.ifPresent(product -> fail("there should not be product in the database"));
     Product found = productOptional.get();
 
     // verification is done by the expected exception

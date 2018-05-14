@@ -4,23 +4,24 @@ image: maven:3-jdk-8
 
 # Cache downloaded dependencies and plugins between builds.
 cache:
-  paths:
-    - .m2/repository
-
-variables:
-  MAVEN_OPTS: "-Dmaven.repo.local=.m2"
+ paths:
+ - $HOME/.m2/
 
 # declares which docker image should be used
 # https://docs.gitlab.com/ee/ci/docker/using_docker_images.html#what-is-an-image
 image: maven:3-jdk-8
 
-# define shell script which executed by GitLab Runner
-build:
-  # -B -> non-interactive batch mode
+
+maven:verify:
+  stage: test
+  dependencies:
+      - maven:package
   script:
-  - "mvn install -B"
+  - "mvn verify --batch-mode"
   - "cat target/site/jacoco/index.html"
+  - "mv target/*.jar ."
   artifacts:
-      paths:
-        - "*.jar"
-      expire_in: 1d
+    when: on_success
+    expire_in: 20d
+    paths:
+      - "*.jar"

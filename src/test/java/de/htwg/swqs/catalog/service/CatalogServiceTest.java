@@ -17,13 +17,14 @@ import org.junit.Test;
 
 public class CatalogServiceTest {
 
+  // the sample products for the tests
   private List<Product> productList = Arrays.asList(
-      new Product(1, "A", "aaa", new BigDecimal("1")),
-      new Product(2, "B", "bbb", new BigDecimal("2")),
-      new Product(2, "C", "ccc", new BigDecimal("3")),
-      new Product(2, "D", "ddd", new BigDecimal("4")),
-      new Product(2, "E", "eee", new BigDecimal("5")),
-      new Product(2, "F", "fff", new BigDecimal("6"))
+      new Product(10001L, "A", "aaa", new BigDecimal("1")),
+      new Product(10002L, "B", "bbb", new BigDecimal("2")),
+      new Product(10003L, "C", "ccc", new BigDecimal("3")),
+      new Product(10004L, "D", "ddd", new BigDecimal("4")),
+      new Product(10005L, "E", "eee", new BigDecimal("5")),
+      new Product(10006L, "F", "fff", new BigDecimal("6"))
   );
 
   @Test
@@ -50,7 +51,7 @@ public class CatalogServiceTest {
     // execute
     List<Product> retrievedList = catalogService.getAllProducts();
 
-    // verify -> the 'expected' parameter in test annotation
+    // The test is verified by the expected exception
   }
 
   @Test
@@ -58,11 +59,11 @@ public class CatalogServiceTest {
     // setup
     CatalogRepository catalogRepository = mock(CatalogRepository.class);
     CatalogService catalogService = new CatalogServiceImpl(catalogRepository);
-    Product sampleProduct = new Product(42, "TestProduct", "bla bla", new BigDecimal("54"));
-    when(catalogRepository.findById(anyLong())).thenReturn(Optional.of(sampleProduct));
+    Product sampleProduct = new Product(42L, "TestProduct", "bla bla", new BigDecimal("54"));
+    when(catalogRepository.findById(42L)).thenReturn(Optional.of(sampleProduct));
 
     // execute
-    Product retrievedProduct = catalogService.getProductById(42);
+    Product retrievedProduct = catalogService.getProductById(42L);
 
     // verify
     assertEquals(sampleProduct, retrievedProduct);
@@ -76,8 +77,8 @@ public class CatalogServiceTest {
     when(catalogRepository.findById(anyLong())).thenReturn(Optional.empty());
 
     // execute
-    Product retrievedProduct = catalogService.getProductById(42);
+    Product retrievedProduct = catalogService.getProductById(42L);
 
-    // verify -> the 'expected' parameter in test annotation
+    // The test is verified by the expected exception
   }
 }
